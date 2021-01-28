@@ -1,0 +1,1 @@
+cargo bootimage --target x86_64-baremetal.json -Z build-std

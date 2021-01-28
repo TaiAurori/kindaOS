@@ -1,0 +1,1 @@
+cargo test --target x86_64-baremetal.json -Z build-std
