@@ -1,3 +1,4 @@
+#![feature(array_value_iter)]
 use crate::{println, print, clearrow, shell};
 use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
 use futures_util::StreamExt;
@@ -6,6 +7,8 @@ use alloc::{
     string::String,
     format
 };
+use lazy_static::lazy_static;
+use hashbrown::HashMap;
 
 pub fn init(executor: &mut Executor) {
     executor.spawn(Task::new(shell::main()));
@@ -18,6 +21,25 @@ pub fn print_ps(ps: u8) {
         2 => "> ",
         _ => "?"
     })
+}
+
+pub fn exec_cmd(cmd: String) {
+    if !cmd.trim().is_empty() {
+        match cmd.as_str() {
+            "help" => {
+                println!("There is no help.");
+            },
+            "hello" => {
+                println!("Hello there!");
+            },
+            "about" => {
+                println!("K I N D A _ O S\nno version number :)\ncreated by TaiAurori#6781\nlargely programmed from os.phil-opp.com");
+            },
+            _ => {
+                println!("Unrecognized command.");
+            }
+        }
+    }
 }
 
 pub async fn main() {
@@ -34,20 +56,7 @@ pub async fn main() {
                         match character {
                             '\n' => {
                                 println!();
-                                match input.as_str() {
-                                    "help" => {
-                                        println!("There is no help.");
-                                    },
-                                    "hello" => {
-                                        println!("Hello there!");
-                                    },
-                                    "about" => {
-                                        println!("K I N D A _ O S\nno version number :)\ncreated by TaiAurori#6781\nlargely programmed from os.phil-opp.com");
-                                    },
-                                    _ => {
-                                        println!("Unrecognized command.");
-                                    }
-                                }
+                                exec_cmd(input);
                                 input = String::new();
                             }, 
                             '\u{0008}' => {
