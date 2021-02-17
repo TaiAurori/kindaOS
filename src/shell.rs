@@ -1,4 +1,3 @@
-#![feature(array_value_iter)]
 use crate::{println, print, clearrow, shell};
 use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
 use futures_util::StreamExt;
@@ -7,8 +6,6 @@ use alloc::{
     string::String,
     format
 };
-use lazy_static::lazy_static;
-use hashbrown::HashMap;
 
 pub fn init(executor: &mut Executor) {
     executor.spawn(Task::new(shell::main()));

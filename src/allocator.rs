@@ -40,6 +40,8 @@ pub fn init_heap(
         ALLOCATOR.lock().init(HEAP_START, HEAP_SIZE);
     }
 
+    crate::println!("Init {} KiB", HEAP_SIZE / 1024);
+
     Ok(())
 }
 
